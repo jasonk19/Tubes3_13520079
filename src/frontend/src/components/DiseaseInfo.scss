@@ -1,0 +1,32 @@
+.DiseaseInfo {
+  background: #FFFFFF;
+  box-shadow: 0px 12px 26px rgba(16, 30, 115, 0.06);
+  border-radius: 8px;
+  padding: 1.5em;
+  width: 40%;
+
+  h5 {
+    margin-bottom: 20px;
+  }
+
+  .disease-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;    
+    height: 15em;
+    padding-right: 10px;
+    overflow-y: auto;
+
+    .disease-info {
+      padding: 9px;
+      background: #EBF0FF;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: default;
+      user-select: none;
+      
+    }
+  }
+
+}

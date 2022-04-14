@@ -1,0 +1,26 @@
+.TopBar {
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1em;
+
+  .Logo {
+    display: flex;
+    height: 100%;
+    gap: 10px;
+    align-items: center;
+    
+    h4 {
+      color: #336CFB;
+    }
+  }
+
+  .Author {
+    p {
+      font-weight: bold;
+      font-style: italic;
+    }
+  }
+
+}
