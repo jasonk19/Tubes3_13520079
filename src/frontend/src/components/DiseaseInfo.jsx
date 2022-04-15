@@ -1,4 +1,5 @@
 import "./DiseaseInfo.scss"
+import { motion } from 'framer-motion';
 
 const DiseaseInfo = () => {
 
@@ -106,7 +107,11 @@ const DiseaseInfo = () => {
   ]
 
   return (
-    <div className='DiseaseInfo'>
+    <motion.div className='DiseaseInfo'
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.5 }}
+    >
       <h5>List of Diseases</h5>
       <div className="disease-list">
         {diseases.map((disease) => {
@@ -115,7 +120,7 @@ const DiseaseInfo = () => {
           )
         })}
       </div>
-    </div>
+    </motion.div>
   )
 }
 

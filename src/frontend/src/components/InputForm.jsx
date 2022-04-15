@@ -1,5 +1,7 @@
 import { useState, createRef } from 'react';
 import './InputForm.scss';
+import { motion } from 'framer-motion'
+import ResultModal from './ResultModal';
 
 const InputForm = () => {
   const convertMonth = (month) => {
@@ -43,6 +45,8 @@ const InputForm = () => {
     disease: '',
   })
 
+  const [showModal, setShowModal] = useState(false);
+
   const [fileName, setFileName] = useState('')
 
   const file = createRef();
@@ -71,32 +75,46 @@ const InputForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log(data)
+
+    setShowModal(true)
+
+    setTimeout(() => window.location.reload(), 5000)
   }
 
 
   return (
-    <div className="InputForm">
-      <h5>Input Test</h5>
-      <form onSubmit={handleSubmit}>
-        <label>Patient Name</label>
-        <input type="text" name="patient" value={data.patient} onChange={handleChange} />
-        <label>Disease Name</label>
-        <input type="text" name="disease" value={data.disease} onChange={handleChange} />
+    <>
+      <motion.div className="InputForm"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3 }}
+      >
+        <h5>Input Test</h5>
+        <form onSubmit={handleSubmit}>
+          <label>Patient Name</label>
+          <input type="text" name="patient" value={data.patient} onChange={handleChange} />
+          <label>Disease Name</label>
+          <input type="text" name="disease" value={data.disease} onChange={handleChange} />
 
-        <div class="file-input-wrapper">
-          <label class="file-upload">
-            DNA Sequence
-            <input type="file" ref={file} onChange={handleFileChange} />
-          </label>
-          <div class="file-name">
-            {fileName !== '' ? fileName : "No File Chosen"}
+          <div class="file-input-wrapper">
+            <label class="file-upload">
+              DNA Sequence
+              <input type="file" ref={file} onChange={handleFileChange} />
+            </label>
+            <div class="file-name">
+              {fileName !== '' ? fileName : "No File Chosen"}
+            </div>
           </div>
-        </div>
 
 
-        <button>Submit</button>
-      </form>
-    </div>
+          <button>Submit</button>
+        </form>
+      </motion.div>
+      <ResultModal 
+        showModal={showModal} 
+        patientData={data}
+      />
+    </>
   )
 }
 

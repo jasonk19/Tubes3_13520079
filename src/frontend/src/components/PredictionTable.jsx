@@ -1,5 +1,6 @@
 import "./PredictionTable.scss";
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 
 const PredictionTable = () => {
   const [patients, setPatients] = useState([
@@ -136,7 +137,11 @@ const PredictionTable = () => {
   }
 
   return (
-    <div className='PredictionTable'>
+    <motion.div className='PredictionTable'
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.5, duration: 1 }}
+    >
       <h5>Patients Result</h5>
       <div className="top-table">
         <div className="legend">
@@ -173,7 +178,7 @@ const PredictionTable = () => {
           )
         })}
       </table>
-    </div>
+    </motion.div>
   )
 }
 
