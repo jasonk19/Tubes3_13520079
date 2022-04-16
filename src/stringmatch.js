@@ -131,19 +131,19 @@ const isValid = (text) => {
 
 const dna = "AAAAACCCCCTTTGGGG"
 
-const pattern = "AAAAACCCCCTTTGGGG"
+const disease = "AAAAACCCCCTTTGGGG"
 
-if (isValid(dna) && isValid(pattern)) {
+if (isValid(dna) && isValid(disease)) {
   console.log("DNA valid")
 
   let status
   let date = getCurrentDate()
   let name = "Mhs IF"
-  let disease = "HIV"
+  let diseaseName = "HIV"
 
-  const position = kmpMatching(dna, pattern)
+  const position = kmpMatching(dna, disease)
 
-  const similarity = hammingDistance(dna, pattern);
+  const similarity = hammingDistance(dna, disease);
 
   if (position == -1) {
     status = "False" 
@@ -151,7 +151,7 @@ if (isValid(dna) && isValid(pattern)) {
     status = "True"
   }
 
-  console.log(`${date} - ${name} - ${disease} - ${similarity}% - ${status}`)
+  console.log(`${date} - ${name} - ${diseaseName} - ${similarity}% - ${status}`)
   console.log("Located at position: " + position)
 
 } else {
