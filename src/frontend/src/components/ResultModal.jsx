@@ -35,16 +35,16 @@ const ResultModal = ({ showModal, patientData }) => {
               </div>
               <div className="content">
                 <p>{patientData.date}</p>
-                <p>{patientData.patient}</p>
+                <p>{patientData.name}</p>
                 <p>{patientData.disease}</p>
-                <p>90%</p>
-                <p>True</p>
+                <p>{patientData.similarity}%</p>
+                <p>{patientData.status}</p>
               </div>
             </div>
-            <div className="status-true">
-              Need Medication
+            <div className={patientData.status === "True" ? "status-true" : "status-false"}>
+              {patientData.status === "True" ? "Need Medication" : "Disease Free"}
             </div>
-            <p className="close-notif">* page will refresh in 5 seconds</p>
+            <p className="close-notif">* page will refresh in 7 seconds</p>
           </motion.div>
         </motion.div>
       )}

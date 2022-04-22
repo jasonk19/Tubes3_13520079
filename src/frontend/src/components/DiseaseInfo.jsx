@@ -1,110 +1,17 @@
 import "./DiseaseInfo.scss"
 import { motion } from 'framer-motion';
+import axios from 'axios'
+import { useState, useEffect } from "react";
 
 const DiseaseInfo = () => {
 
-  const diseases = [
-    {
-      name: "HIV",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Malaria",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Corona",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Batuk",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Pilek",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Migraine",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Migraine",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Migraine",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Migraine",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Migraine",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Migraine",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Migraine",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Migraine",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Migraine",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Migraine",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Migraine",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Migraine",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Migraine",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Migraine",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Migraine",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Migraine",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Migraine",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Migraine",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Migraine",
-      dna_sequence: "ACGT",
-    },
-    {
-      name: "Migraine",
-      dna_sequence: "ACGT",
-    },
-  ]
+  const [diseases, setDiseases] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/disease").then((res) => {
+      setDiseases(res.data);
+    })
+  }, []);
 
   return (
     <motion.div className='DiseaseInfo'

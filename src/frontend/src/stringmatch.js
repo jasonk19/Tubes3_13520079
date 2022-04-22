@@ -5,7 +5,7 @@ const getCurrentDate = () => {
 
 // Hamming Distance
 const hammingDistance = (string1, string2, position) => {
-  if (position != -1) {
+  if (position !== -1) {
 
     const length1 = string1.length;
     const length2 = string2.length;
@@ -16,6 +16,8 @@ const hammingDistance = (string1, string2, position) => {
     percentage = Math.round(percentage)
     
     return 100 - percentage;
+  } else {
+    return 0;
   }
 }
 
@@ -46,8 +48,8 @@ const bmMatch = (text, pattern) => {
 
   let j = m - 1;
   while (i <= n - 1) {
-    if (pattern.charAt(j) == text.charAt(i)) {
-      if (j == 0) {
+    if (pattern.charAt(j) === text.charAt(i)) {
+      if (j === 0) {
         return i;
       } else {
         i--;
@@ -74,7 +76,7 @@ const computeFail = (pattern) => {
   let i = 1
 
   while (i < m) {
-    if (pattern.charAt(j) == pattern.charAt(i)) {
+    if (pattern.charAt(j) === pattern.charAt(i)) {
       fail[i] = j + 1
       i++
       j++
@@ -99,8 +101,8 @@ const kmpMatching = (text, pattern) => {
   let j = 0;
 
   while (i < n) {
-    if (pattern.charAt(j) == text.charAt(i)) {
-      if (j == m - 1) {
+    if (pattern.charAt(j) === text.charAt(i)) {
+      if (j === m - 1) {
         return i - m + 1
       }
       i++
@@ -122,33 +124,9 @@ const isValid = (text) => {
   }
 }
 
-
-const dna = "AAAAACCCCCTTTGGGG"
-
-const disease = "AAAAACCCCCTTTG"
-
-if (isValid(dna) && isValid(disease)) {
-  console.log("DNA valid")
-
-  let status
-  let date = getCurrentDate()
-  let name = "Mhs IF"
-  let diseaseName = "HIV"
-
-  const position = kmpMatching(dna, disease)
-
-  const similarity = hammingDistance(dna, disease, position);
-
-  if (similarity >= 80) {
-    status = "True" 
-  } else {
-    status = "False"
-  }
-
-  console.log(`${date} - ${name} - ${diseaseName} - ${similarity}% - ${status}`)
-  console.log("Located at position: " + position)
-
-} else {
-  console.log("DNA tidak valid")
+export {
+  isValid,
+  hammingDistance,
+  kmpMatching,
+  bmMatch
 }
-  

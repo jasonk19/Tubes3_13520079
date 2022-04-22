@@ -62,7 +62,7 @@
 		border-radius: 8px;
 		display: flex;
 		align-items: center;
-    margin: 10px 0;
+    // margin: 10px 0;
 	}
 
 	.file-upload {
@@ -89,6 +89,10 @@
     background-color: #558EFF;
   }
 
+  .disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
 
 }
 

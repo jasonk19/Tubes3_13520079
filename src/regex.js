@@ -3,3 +3,4 @@ let validDate = /^(?:(?:31(\/|-|\.| )(?:0?[13578]|1[02]|Jan(?:uary)?|Mar(?:ch)?|
 let validDisease = /.*/gm
 // validDateandDisease? extract date or disease or both
 //let result = validDisease.test("19-January-2003")
+
