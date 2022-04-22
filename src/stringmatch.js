@@ -4,25 +4,19 @@ const getCurrentDate = () => {
 }
 
 // Hamming Distance
-const hammingDistance = (string1, string2) => {
-  const length = string1.length
-  let dist_counter = 0;
-  for (let i = 0; i < length; i++) {
-    if (i < string2.length) {
-      if (string1.charAt(i) != string2.charAt(i)) {
-        dist_counter += 1;
-      }
-    } else {
-      dist_counter += 1;
-    }
+const hammingDistance = (string1, string2, position) => {
+  if (position != -1) {
+
+    const length1 = string1.length;
+    const length2 = string2.length;
+
+    let dist_counter = length1 - length2;
+
+    let percentage = dist_counter * 100 / length1;
+    percentage = Math.round(percentage)
+    
+    return 100 - percentage;
   }
-
-  let percentage = dist_counter * 100 / length;
-
-  percentage = Math.round(percentage)
-
-  return 100 - percentage;
-
 }
 
 // BM Matching
@@ -131,7 +125,7 @@ const isValid = (text) => {
 
 const dna = "AAAAACCCCCTTTGGGG"
 
-const disease = "AAAAACCCCCTTTGGGG"
+const disease = "AAAAACCCCCTTTG"
 
 if (isValid(dna) && isValid(disease)) {
   console.log("DNA valid")
@@ -143,12 +137,12 @@ if (isValid(dna) && isValid(disease)) {
 
   const position = kmpMatching(dna, disease)
 
-  const similarity = hammingDistance(dna, disease);
+  const similarity = hammingDistance(dna, disease, position);
 
-  if (position == -1) {
-    status = "False" 
+  if (similarity >= 80) {
+    status = "True" 
   } else {
-    status = "True"
+    status = "False"
   }
 
   console.log(`${date} - ${name} - ${diseaseName} - ${similarity}% - ${status}`)
