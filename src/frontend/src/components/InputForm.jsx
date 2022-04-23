@@ -3,12 +3,10 @@ import './InputForm.scss';
 import { motion } from 'framer-motion';
 import ResultModal from './ResultModal';
 import InvalidInput from './InvalidInput';
-import { isValid, hammingDistance, kmpMatching, bmMatch } from '../stringmatch';
+import { isValid } from '../validation';
 import axios from 'axios';
 
 const InputForm = () => {
-  const [diseases, setDiseases] = useState([]);
-
   const convertMonth = (month) => {
     switch (month) {
       case 1:
@@ -40,6 +38,8 @@ const InputForm = () => {
     }
   }
 
+  const [diseases, setDiseases] = useState([]);
+
   useEffect(() => {
     axios.get("http://localhost:5000/api/disease").then((res) => {
       setDiseases(res.data);
@@ -52,19 +52,14 @@ const InputForm = () => {
   const [data, setData] = useState({
     date: date,
     name: '',
-    dna_sequence: '',
+    patient_dna_sequence: '',
     disease: '',
-    similarity: '',
-    status: ''
+    disease_dna_sequence: '',
   })
-
   const [showModal, setShowModal] = useState(false);
-
   const [fileName, setFileName] = useState('')
-
   const [invalidInput, setInvalidInput] = useState(false);
-
-  const [similarityRate, setSimilarityRate] = useState(100);
+  const [result, setResult] = useState({});
 
   const file = createRef();
 
@@ -80,7 +75,7 @@ const InputForm = () => {
     setInvalidInput(false)
     setData({
       ...data,
-      dna_sequence: ''
+      patient_dna_sequence: ''
     })
     const reader = new FileReader()
     reader.onload = (e) => {
@@ -90,7 +85,7 @@ const InputForm = () => {
       } else {
         setData({
           ...data,
-          dna_sequence: text
+          patient_dna_sequence: text
         })
       }
     }
@@ -98,36 +93,25 @@ const InputForm = () => {
     setFileName(e.target.files[0].name)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     let diseaseDNA = '';
-    let status;
-
     for (let i = 0; i < diseases.length; i++) {
       if (diseases[i].name.toUpperCase() === data.disease.toUpperCase()) {
         diseaseDNA = diseases[i].dna_sequence;
       }
     }
 
-    const position = kmpMatching(data.dna_sequence, diseaseDNA);
+    data.disease_dna_sequence = diseaseDNA;
+    
+    await axios.post("http://localhost:5000/api/result", data).then((res) => {
+      setResult(res.data);
+    })
 
-    const similarity = hammingDistance(data.dna_sequence, diseaseDNA, position);
+    setShowModal(true);
 
-    if (similarity >= 80) {
-      status = "True";
-    } else {
-      status = "False";
-    }
-
-    data.similarity = similarity;
-    data.status = status;
-
-    console.log(data)
-
-    setShowModal(true)
-
-    setTimeout(() => window.location.reload(), 7000)
+    setTimeout(() => window.location.reload(), 5000);
   }
 
   return (
@@ -156,12 +140,12 @@ const InputForm = () => {
           {invalidInput && (
               <InvalidInput message="DNA Sequence invalid, please input a correct DNA Sequence (consists of A, C, G, T)" />
           )}
-          <button className={data.dna_sequence === '' || invalidInput ? 'disabled' : ''} >Submit</button>
+          <button className={data.patient_dna_sequence === '' || invalidInput ? 'disabled' : ''} >Submit</button>
         </form>
       </motion.div>
       <ResultModal 
         showModal={showModal} 
-        patientData={data}
+        patientData={result}
       />
     </>
   )

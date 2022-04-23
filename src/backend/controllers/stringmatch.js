@@ -1,8 +1,3 @@
-const getCurrentDate = () => {
-  const today = new Date();
-  return today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-}
-
 // Hamming Distance
 const hammingDistance = (string1, string2, position) => {
   if (position !== -1) {
@@ -116,16 +111,7 @@ const kmpMatching = (text, pattern) => {
   return -1;
 }
 
-const isValid = (text) => {
-  if (text.match(/[a-z]/) || text.match(/[^ACGT]/)) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
-export {
-  isValid,
+module.exports = {
   hammingDistance,
   kmpMatching,
   bmMatch

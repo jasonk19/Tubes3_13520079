@@ -11,7 +11,6 @@ const getDiseases = (req, res) => {
       dna_sequence: "ACTTACTGATCGATCGTGTACGTG"
     }
   ]
-  res.set('Access-Control-Allow-Origin', '*');
   res.status(200).json(diseases);
 }
 
