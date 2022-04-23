@@ -1,5 +1,5 @@
 // Hsimmilarity
-const simmilarity = (str1, str2) => {
+const similarityFinding = (str1, str2) => {
     const n = str1.length
     const m = str2.length
     let i = 0
@@ -23,7 +23,7 @@ const simmilarity = (str1, str2) => {
             break
         }
     }
-    return max / m;
+    return Math.round(max / m);
 }
 
 // BM Matching
@@ -122,7 +122,7 @@ const kmpMatching = (text, pattern) => {
 }
 
 module.exports = {
-    simmilarity,
+    similarityFinding,
     kmpMatching,
     bmMatch
 }

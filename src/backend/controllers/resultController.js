@@ -1,4 +1,4 @@
-const { kmpMatching, hammingDistance } = require("./stringmatch");
+const { kmpMatching, similarityFinding } = require("./stringmatch");
 
 const getResults = (req, res) => {
   let results = [
@@ -24,13 +24,19 @@ const postResult = (req, res) => {
   const disease_dna_sequence = req.body.disease_dna_sequence;
   const patient_dna_sequence = req.body.patient_dna_sequence;
 
-  const position = kmpMatching(patient_dna_sequence, disease_dna_sequence)
-  const similarity = hammingDistance(patient_dna_sequence, disease_dna_sequence, position);
+  const position = kmpMatching(patient_dna_sequence, disease_dna_sequence);
+  let similarity;
   let status;
-  if (similarity >= 80) {
+  if (position != -1) {
+    similarity = 100;
     status = "True";
   } else {
-    status = "False";
+    similarity = similarityFinding(patient_dna_sequence, disease_dna_sequence);
+    if (similarity >= 80) {
+      status = "True";
+    } else {
+      status = "False";
+    }
   }
   
   const result = {
