@@ -23,7 +23,7 @@ const similarityFinding = (str1, str2) => {
             break
         }
     }
-    return Math.round(max / m);
+    return Math.round(100 * (max / m));
 }
 
 // BM Matching
