@@ -1,4 +1,5 @@
 const { kmpMatching, similarityFinding } = require("./stringmatch");
+const { isValid } = require("./validation");
 
 const getResults = (req, res) => {
   let results = [
@@ -24,29 +25,40 @@ const postResult = (req, res) => {
   const disease_dna_sequence = req.body.disease_dna_sequence;
   const patient_dna_sequence = req.body.patient_dna_sequence;
 
-  const position = kmpMatching(patient_dna_sequence, disease_dna_sequence);
-  let similarity;
-  let status;
-  if (position != -1) {
-    similarity = 100;
-    status = "True";
+  if (!isValid(patient_dna_sequence)) {
+    const result = {
+      data: {},
+      message: "Invalid Sequence"
+    }
+    res.status(200).json(result);
   } else {
-    similarity = similarityFinding(patient_dna_sequence, disease_dna_sequence);
-    if (similarity >= 80) {
+    const position = kmpMatching(patient_dna_sequence, disease_dna_sequence);
+    let similarity;
+    let status;
+    if (position != -1) {
+      similarity = 100;
       status = "True";
     } else {
-      status = "False";
+      similarity = similarityFinding(patient_dna_sequence, disease_dna_sequence);
+      if (similarity >= 80) {
+        status = "True";
+      } else {
+        status = "False";
+      }
     }
+    
+    const result = {
+      data: {
+        date: req.body.date,
+        name: req.body.name,
+        disease: req.body.disease,
+        similarity: similarity,
+        status: status
+      },
+      message: "Success"
+    }
+    res.status(200).json(result);
   }
-  
-  const result = {
-    date: req.body.date,
-    name: req.body.name,
-    disease: req.body.disease,
-    similarity: similarity,
-    status: status
-  }
-  res.status(200).json(result);
 }
 
 module.exports = {

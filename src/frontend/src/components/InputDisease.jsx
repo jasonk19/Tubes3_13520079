@@ -1,7 +1,6 @@
 import "./InputDisease.scss";
 import { motion, AnimatePresence } from 'framer-motion'
 import { createRef, useState } from "react";
-import { isValid } from '../validation';
 import NotifMessage from "./NotifMessage";
 import axios from "axios";
 import { AiOutlineCloseCircle } from 'react-icons/ai';
@@ -46,14 +45,10 @@ const InputDisease = ({ showModal, setShowModal }) => {
     const reader = new FileReader()
     reader.onload = (e) => {
       const text = e.target.result;
-      if (!isValid(text)) {
-        setInvalidInput(true);
-      } else {
-        setData({
-          ...data,
-          dna_sequence: text
-        })
-      }
+      setData({
+        ...data,
+        dna_sequence: text
+      })
     }
     reader.readAsText(file.current.files[0])
     setFileName(e.target.files[0].name)
@@ -70,6 +65,8 @@ const InputDisease = ({ showModal, setShowModal }) => {
       setTimeout(() => {
         window.location.reload()
       }, 2000);
+    } else {
+      setInvalidInput(true);
     }
   }
 
@@ -109,13 +106,14 @@ const InputDisease = ({ showModal, setShowModal }) => {
                 {fileName !== '' ? fileName : "No File Chosen"}
               </div>
               </div>
-              {invalidInput && (
-                <NotifMessage message="DNA Sequence invalid, please input a correct DNA Sequence (consists of A, C, G, T)" bcolor="red" />
-              )}
               <button className={data.dna_sequence === '' || data.name === '' || invalidInput ? 'disabled' : ''} >Submit</button>
 
               {messageNotif && (
-                <NotifMessage message="New Disease submitted successfully, page will reload automatically" bcolor="green" />
+                <NotifMessage message="New disease submitted successfully, page will reload automatically" bcolor="green" />
+              )}
+
+              {invalidInput && (
+                <NotifMessage message="DNA Sequence invalid, please input a correct DNA Sequence (consists of A, C, G, T)" bcolor="red" />
               )}
             </form>
 

@@ -3,7 +3,6 @@ import './InputForm.scss';
 import { motion } from 'framer-motion';
 import ResultModal from './ResultModal';
 import NotifMessage from './NotifMessage';
-import { isValid } from '../validation';
 import axios from 'axios';
 
 const InputForm = () => {
@@ -61,6 +60,8 @@ const InputForm = () => {
   const [invalidInput, setInvalidInput] = useState(false);
   const [result, setResult] = useState({});
 
+  let message = '';
+
   const file = createRef();
 
   const handleChange = (e) => {
@@ -80,14 +81,10 @@ const InputForm = () => {
     const reader = new FileReader()
     reader.onload = (e) => {
       const text = e.target.result;
-      if (!isValid(text)) {
-        setInvalidInput(true);
-      } else {
-        setData({
-          ...data,
-          patient_dna_sequence: text
-        })
-      }
+      setData({
+        ...data,
+        patient_dna_sequence: text
+      })
     }
     reader.readAsText(file.current.files[0])
     setFileName(e.target.files[0].name)
@@ -106,12 +103,17 @@ const InputForm = () => {
     data.disease_dna_sequence = diseaseDNA;
     
     await axios.post("http://localhost:5000/api/result", data).then((res) => {
-      setResult(res.data);
+      setResult(res.data.data);
+      message = res.data.message;
     })
 
-    setShowModal(true);
-
-    setTimeout(() => window.location.reload(), 5000);
+    if (message === "Success") {
+      setShowModal(true);
+  
+      setTimeout(() => window.location.reload(), 5000);
+    } else {
+      setInvalidInput(true);
+    }
   }
 
   return (
@@ -137,10 +139,11 @@ const InputForm = () => {
               {fileName !== '' ? fileName : "No File Chosen"}
             </div>
           </div>
+          <button className={data.patient_dna_sequence === '' || data.name === '' || data.disease === '' || invalidInput ? 'disabled' : ''} >Submit</button>
+
           {invalidInput && (
               <NotifMessage message="DNA Sequence invalid, please input a correct DNA Sequence (consists of A, C, G, T)" bcolor="red" />
           )}
-          <button className={data.patient_dna_sequence === '' || invalidInput ? 'disabled' : ''} >Submit</button>
         </form>
       </motion.div>
       <ResultModal 

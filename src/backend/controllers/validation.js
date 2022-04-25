@@ -6,6 +6,6 @@ const isValid = (text) => {
   }
 }
 
-export {
-  isValid,
+module.exports = {
+  isValid
 }
