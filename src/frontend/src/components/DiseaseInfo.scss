@@ -5,10 +5,32 @@
   padding: 1.5em;
   width: 40%;
 
-  h5 {
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-bottom: 20px;
-  }
 
+    button {
+      border: none;
+      outline: none;
+      font-weight: bold;
+      font-size: 15px;
+      letter-spacing: 1px;
+      font-family: 'Lato', sans-serif;
+      background: #336CFB;
+      color: #FFFFFF;
+      border-radius: 8px;
+      padding: 8px 10px;
+      cursor: pointer;
+      transition: ease 0.3s;
+    }
+    
+    button:hover {
+      background: #558EFF;
+    }
+  }
+  
   .disease-list {
     display: flex;
     flex-wrap: wrap;

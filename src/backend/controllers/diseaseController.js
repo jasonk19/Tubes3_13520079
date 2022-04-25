@@ -8,10 +8,22 @@ const getDiseases = (req, res) => {
     },
     {
       name: "Tidur",
-      dna_sequence: "ACTTACTGATCGATCGTGTACGTG"
+      dna_sequence: "CGATCGATCGACTTGCCGCTCGTCGCTCGCTGTG"
     }
   ]
   res.status(200).json(diseases);
 }
 
-module.exports = getDiseases
+const postDisease = (req, res) => {
+  const result = {
+    name: req.body.name,
+    dna_sequence: req.body.dna_sequence,
+    message: "Success"
+  }
+  res.status(200).json(result);
+}
+
+module.exports = {
+  getDiseases,
+  postDisease
+}
