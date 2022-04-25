@@ -2,7 +2,7 @@ import { useState, createRef, useEffect } from 'react';
 import './InputForm.scss';
 import { motion } from 'framer-motion';
 import ResultModal from './ResultModal';
-import InvalidInput from './InvalidInput';
+import NotifMessage from './NotifMessage';
 import { isValid } from '../validation';
 import axios from 'axios';
 
@@ -138,7 +138,7 @@ const InputForm = () => {
             </div>
           </div>
           {invalidInput && (
-              <InvalidInput message="DNA Sequence invalid, please input a correct DNA Sequence (consists of A, C, G, T)" />
+              <NotifMessage message="DNA Sequence invalid, please input a correct DNA Sequence (consists of A, C, G, T)" bcolor="red" />
           )}
           <button className={data.patient_dna_sequence === '' || invalidInput ? 'disabled' : ''} >Submit</button>
         </form>
