@@ -1,8 +1,9 @@
 const { kmpMatching, similarityFinding } = require("./stringmatch");
 const { isValid } = require("./validation");
 const { validateSearchInput } = require("./regex");
+const db = require("../database/db");
 
-const getResults = (req, res) => {
+const getResults = async (req, res) => {
   const { search } = req.query;
 
   let filter;
@@ -13,57 +14,15 @@ const getResults = (req, res) => {
 
 
   let filteredResults = [];
-  let results = [
-    {
-      date: "21 April 2022",
-      name: "Lorem ipsum",
-      disease_name: "Tidur",
-      similarity: 85,
-      status: "True"
-    },
-    {
-      date: "22 April 2022",
-      name: "Lorem Lorem",
-      disease_name: "Tidur",
-      similarity: 100,
-      status: "True"
-    },
-    {
-      date: "22 April 2022",
-      name: "Lorem Lorem",
-      disease_name: "Bangun",
-      similarity: 100,
-      status: "True"
-    },
-    {
-      date: "25 April 2022",
-      name: "Lorem Lorem",
-      disease_name: "Ngantuk",
-      similarity: 100,
-      status: "True"
-    },
-    {
-      date: "26 April 2022",
-      name: "Lorem Lorem",
-      disease_name: "Aman",
-      similarity: 100,
-      status: "True"
-    },
-    {
-      date: "28 April 2022",
-      name: "Lorem Lorem",
-      disease_name: "Halo",
-      similarity: 100,
-      status: "True"
-    },
-  ]
+  const resultQuery = await db.promise().query("SELECT * FROM hasil");
+  const results = resultQuery[0];
 
   if (filter == undefined) {
     filteredResults = results;
   } else {
     if (filter === search) {
       filteredResults = results.filter((result) => 
-        result.date.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+        result.tanggal.toLowerCase().indexOf(filter.toLowerCase()) !== -1
       )
     } else if (filter[0] === search) {
       filteredResults = results.filter((result) => 
@@ -72,7 +31,7 @@ const getResults = (req, res) => {
     } else {
       if (filter.get('tanggal') !== 'undefined' && filter.get('penyakit') !== 'undefined') {
         filteredResults = results.filter((result) => 
-          result.date.toLowerCase().indexOf(filter.get('tanggal').toLowerCase()) !== -1 && result.disease_name.toLowerCase().indexOf(filter.get('penyakit')[0].toLowerCase()) !== -1
+          result.tanggal.toLowerCase().indexOf(filter.get('tanggal').toLowerCase()) !== -1 && result.disease_name.toLowerCase().indexOf(filter.get('penyakit')[0].toLowerCase()) !== -1
         )  
       }
     }
@@ -106,7 +65,7 @@ const postResult = (req, res) => {
         status = "False";
       }
     }
-    
+
     const result = {
       data: {
         date: req.body.date,
@@ -117,7 +76,12 @@ const postResult = (req, res) => {
       },
       message: "Success"
     }
-    res.status(200).json(result);
+    try {
+      db.promise().query(`INSERT INTO hasil (tanggal, nama, disease_name, similarity, status) VALUES ('${result.data.date}', '${result.data.name}', '${result.data.disease}', '${result.data.similarity}', '${result.data.status}')`);
+      res.status(200).json(result);
+    } catch (err) {
+      console.log(err);
+    }
   }
 }
 

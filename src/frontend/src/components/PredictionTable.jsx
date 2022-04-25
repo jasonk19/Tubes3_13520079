@@ -60,9 +60,9 @@ const PredictionTable = () => {
         {patients.map((patient, index) => {
           return (
             <tr>
-              <td className="row-number">{index + 1}</td>
-              <td>{patient.date}</td>
-              <td>{patient.name}</td>
+              <td className="row-number">{patient.id}</td>
+              <td>{patient.tanggal}</td>
+              <td>{patient.nama}</td>
               <td>{patient.disease_name}</td>
               <td>{patient.similarity}%</td>
               <td className={patient.status === "True" ? "true" : "false"}>{patient.status}</td>

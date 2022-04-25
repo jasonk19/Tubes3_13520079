@@ -29,7 +29,7 @@ const DiseaseInfo = () => {
         <div className="disease-list">
           {diseases.map((disease) => {
             return (
-              <div className="disease-info">{disease.name}</div>
+              <div className="disease-info">{disease.nama_penyakit}</div>
             )
           })}
         </div>

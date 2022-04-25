@@ -93,10 +93,10 @@ const InputForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    let diseaseDNA = '';
+    let diseaseDNA;
     for (let i = 0; i < diseases.length; i++) {
-      if (diseases[i].name.toUpperCase() === data.disease.toUpperCase()) {
-        diseaseDNA = diseases[i].dna_sequence;
+      if (diseases[i].nama_penyakit.toUpperCase() === data.disease.toUpperCase()) {
+        diseaseDNA = diseases[i].seq_dna;
       }
     }
 

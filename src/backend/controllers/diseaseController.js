@@ -1,19 +1,11 @@
 const { isValid } = require("./validation");
+const db = require("../database/db")
 
 // @desc    Get Diseases
 // @route   /api/disease
-const getDiseases = (req, res) => {
-  let diseases = [
-    {
-      name: "Pusing",
-      dna_sequence: "ACTTGACGATCGTAGCTAGCTGAG"
-    },
-    {
-      name: "Tidur",
-      dna_sequence: "CGATCGATCGACTTGCCGCTCGTCGCTCGCTGTG"
-    }
-  ]
-  res.status(200).json(diseases);
+const getDiseases = async (req, res) => {
+  const diseases = await db.promise().query("SELECT * FROM penyakit");
+  res.status(200).json(diseases[0]);
 }
 
 const postDisease = (req, res) => {
@@ -31,7 +23,12 @@ const postDisease = (req, res) => {
       },
       message: "Success"
     }
-    res.status(200).json(result);
+    try {
+      db.promise().query(`INSERT INTO penyakit (nama_penyakit, seq_dna) VALUES ('${result.data.name}', '${result.data.dna_sequence}')`)
+      res.status(200).json(result);
+    } catch (err) {
+      console.log(err);
+    }
   }
 }
 
