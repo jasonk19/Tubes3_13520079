@@ -1,7 +1,18 @@
 const { kmpMatching, similarityFinding } = require("./stringmatch");
 const { isValid } = require("./validation");
+const { validateSearchInput } = require("./regex");
 
 const getResults = (req, res) => {
+  const { search } = req.query;
+
+  let filter;
+
+  if (search != undefined) {
+    filter = validateSearchInput(search);
+  }
+
+
+  let filteredResults = [];
   let results = [
     {
       date: "21 April 2022",
@@ -16,9 +27,58 @@ const getResults = (req, res) => {
       disease_name: "Tidur",
       similarity: 100,
       status: "True"
-    }
+    },
+    {
+      date: "22 April 2022",
+      name: "Lorem Lorem",
+      disease_name: "Bangun",
+      similarity: 100,
+      status: "True"
+    },
+    {
+      date: "25 April 2022",
+      name: "Lorem Lorem",
+      disease_name: "Ngantuk",
+      similarity: 100,
+      status: "True"
+    },
+    {
+      date: "26 April 2022",
+      name: "Lorem Lorem",
+      disease_name: "Aman",
+      similarity: 100,
+      status: "True"
+    },
+    {
+      date: "28 April 2022",
+      name: "Lorem Lorem",
+      disease_name: "Halo",
+      similarity: 100,
+      status: "True"
+    },
   ]
-  res.status(200).json(results)
+
+  if (filter == undefined) {
+    filteredResults = results;
+  } else {
+    if (filter === search) {
+      filteredResults = results.filter((result) => 
+        result.date.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+      )
+    } else if (filter[0] === search) {
+      filteredResults = results.filter((result) => 
+        result.disease_name.toLowerCase().indexOf(filter[0].toLowerCase()) !== -1
+      )
+    } else {
+      if (filter.get('tanggal') !== 'undefined' && filter.get('penyakit') !== 'undefined') {
+        filteredResults = results.filter((result) => 
+          result.date.toLowerCase().indexOf(filter.get('tanggal').toLowerCase()) !== -1 && result.disease_name.toLowerCase().indexOf(filter.get('penyakit')[0].toLowerCase()) !== -1
+        )  
+      }
+    }
+  }
+
+  res.status(200).json(filteredResults)
 }
 
 const postResult = (req, res) => {

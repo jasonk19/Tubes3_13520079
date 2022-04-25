@@ -12,22 +12,18 @@ const PredictionTable = () => {
     })
   }, [])
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     let search = e.target.value;
     
     if (search !== '') {
-      setPatients(patients.filter((patient) => 
-        patient.date.toUpperCase().indexOf(search.toUpperCase()) !== -1 ||
-        patient.name.toUpperCase().indexOf(search.toUpperCase()) !== -1 ||
-        patient.disease_name.toUpperCase().indexOf(search.toUpperCase()) !== -1 ||
-        patient.status.toUpperCase().indexOf(search.toUpperCase()) !== -1
-      ));
+      await axios.get(`http://localhost:5000/api/result?search=${search}`).then((res) => {
+        setPatients(res.data)
+      })
     } else {
-      axios.get("http://localhost:5000/api/result").then((res) => {
+      await axios.get("http://localhost:5000/api/result").then((res) => {
         setPatients(res.data)
       })
     }
-
   }
 
   return (
