@@ -1,8 +1,8 @@
 const isValid = (text) => {
-  if (text.match(/[a-z]/) || text.match(/[^ACGT]/)) {
-    return false;
-  } else {
+  if (text.match(/^[ACGT]{1,}$/)) {
     return true;
+  } else {
+    return false;
   }
 }
 
