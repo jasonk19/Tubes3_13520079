@@ -8,7 +8,6 @@ function sqlDateFormat(input){
   day = ""
   month = ""
   year = ""
-  console
   switch(true){
     case (inputArray[0].length == 1):
       day = "0" + inputArray[0]
@@ -89,12 +88,9 @@ const getResults = async (req, res) => {
   let filteredResults = [];
   const resultQuery = await db.promise().query("SELECT * FROM hasil");
   const results = resultQuery[0];
-  console.log(results);
   if (!filter) {
-    console.log("ga terdef")
     filteredResults = results;
   } else {
-    console.log("terdef")
     let currTanggal
     let currDisease
     if(filter.get('tanggal')){
@@ -103,33 +99,24 @@ const getResults = async (req, res) => {
     if(filter.get('nama_penyakit')){
       currDisease = filter.get('nama_penyakit')
     }
-    console.log(currTanggal);
-    console.log(currDisease);
     if (currTanggal != undefined){
       if(currDisease != undefined){
-        console.log("Masuk1");
         filteredResults = results.filter((result) =>
         result.tanggal.toLowerCase() == currTanggal ||
         result.disease_name.toLowerCase() == currDisease.toLowerCase()
         )
       }else{
-        console.log("Masuk2");
         filteredResults = results.filter((result) =>
         result.tanggal == currTanggal
         )
       }
     }else{
       if(currDisease != undefined){
-        console.log("Masuk3");
         filteredResults = results.filter((result) =>
         result.disease_name.toLowerCase() == currDisease.toLowerCase()
         )
-      }else{
-        console.log("Masuk4");
-        
       }
     }
-    console.log(filteredResults);
   }
   res.status(200).json(filteredResults)
 }
