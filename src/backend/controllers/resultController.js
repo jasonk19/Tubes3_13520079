@@ -102,7 +102,7 @@ const getResults = async (req, res) => {
     if (currTanggal != undefined){
       if(currDisease != undefined){
         filteredResults = results.filter((result) =>
-        result.tanggal.toLowerCase() == currTanggal ||
+        result.tanggal.toLowerCase() == currTanggal &&
         result.disease_name.toLowerCase() == currDisease.toLowerCase()
         )
       }else{
