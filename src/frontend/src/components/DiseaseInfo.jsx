@@ -10,7 +10,7 @@ const DiseaseInfo = () => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/disease").then((res) => {
+    axios.get("https://dna-pattern-matching-tubes3.herokuapp.com/api/disease").then((res) => {
       setDiseases(res.data);
     })
   }, []);

@@ -7,7 +7,7 @@ const PredictionTable = () => {
   const [patients, setPatients] = useState([])
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/result").then((res) => {
+    axios.get("https://dna-pattern-matching-tubes3.herokuapp.com/api/result").then((res) => {
       setPatients(res.data)
     })
   }, [])
@@ -16,11 +16,11 @@ const PredictionTable = () => {
     let search = e.target.value;
     
     if (search !== '') {
-      await axios.get(`http://localhost:5000/api/result?search=${search}`).then((res) => {
+      await axios.get(`https://dna-pattern-matching-tubes3.herokuapp.com/api/result?search=${search}`).then((res) => {
         setPatients(res.data)
       })
     } else {
-      await axios.get("http://localhost:5000/api/result").then((res) => {
+      await axios.get("https://dna-pattern-matching-tubes3.herokuapp.com/api/result").then((res) => {
         setPatients(res.data)
       })
     }

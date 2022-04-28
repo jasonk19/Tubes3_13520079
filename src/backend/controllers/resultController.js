@@ -102,18 +102,18 @@ const getResults = async (req, res) => {
     if (currTanggal != undefined){
       if(currDisease != undefined){
         filteredResults = results.filter((result) =>
-        result.tanggal.toLowerCase() == currTanggal &&
-        result.disease_name.toLowerCase() == currDisease.toLowerCase()
+        result.tanggal.toLowerCase() === currTanggal &&
+        result.disease_name.toLowerCase() === currDisease.toLowerCase()
         )
       }else{
         filteredResults = results.filter((result) =>
-        result.tanggal == currTanggal
+        result.tanggal === currTanggal
         )
       }
     }else{
       if(currDisease != undefined){
         filteredResults = results.filter((result) =>
-        result.disease_name.toLowerCase() == currDisease.toLowerCase()
+        result.disease_name.toLowerCase() === currDisease.toLowerCase()
         )
       }
     }

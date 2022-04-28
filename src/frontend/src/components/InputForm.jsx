@@ -40,7 +40,7 @@ const InputForm = () => {
   const [diseases, setDiseases] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/disease").then((res) => {
+    axios.get("https://dna-pattern-matching-tubes3.herokuapp.com/api/disease").then((res) => {
       setDiseases(res.data);
     })
   }, [])
@@ -107,7 +107,7 @@ const InputForm = () => {
     } else {
       data.disease_dna_sequence = diseaseDNA;
       
-      await axios.post("http://localhost:5000/api/result", data).then((res) => {
+      await axios.post("https://dna-pattern-matching-tubes3.herokuapp.com/api/result", data).then((res) => {
         setResult(res.data.data);
         message = res.data.message;
       })

@@ -70,7 +70,7 @@ const InputDisease = ({ showModal, setShowModal }) => {
     if (diseases.some((disease) => disease.nama_penyakit.toUpperCase() === data.name.toUpperCase())) {
       setDiseaseExist(true);
     } else {
-      await axios.post("http://localhost:5000/api/disease", data).then((res) => {
+      await axios.post("https://dna-pattern-matching-tubes3.herokuapp.com/api/disease", data).then((res) => {
         result = res.data.message;
       })
       if (result === "Success") {
