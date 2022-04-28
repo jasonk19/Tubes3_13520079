@@ -44,7 +44,7 @@ const ResultModal = ({ showModal, patientData }) => {
             <div className={patientData.status === "True" ? "status-true" : "status-false"}>
               {patientData.status === "True" ? "Need Medication" : "Disease Free"}
             </div>
-            <p className="close-notif">* page will refresh in 5 seconds</p>
+            <p className="close-notif">* page will refresh in 7 seconds</p>
           </motion.div>
         </motion.div>
       )}

@@ -110,7 +110,7 @@ const InputForm = () => {
     if (message === "Success") {
       setShowModal(true);
   
-      setTimeout(() => window.location.reload(), 5000);
+      setTimeout(() => window.location.reload(), 7000);
     } else {
       setInvalidInput(true);
     }
