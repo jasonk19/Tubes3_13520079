@@ -11,7 +11,7 @@ const modal = {
   visible: { opacity: 1, y: 0, transition: { delay: 0.5 } },
 }
 
-const ResultModal = ({ showModal, patientData }) => {
+const ResultModal = ({ showModal, patientData, date }) => {
   return (
     <AnimatePresence exitBeforeEnter>
       {showModal && (
@@ -34,7 +34,7 @@ const ResultModal = ({ showModal, patientData }) => {
                 <p>Result</p>
               </div>
               <div className="content">
-                <p>{patientData.date}</p>
+                <p>{date}</p>
                 <p>{patientData.name}</p>
                 <p>{patientData.disease}</p>
                 <p>{patientData.similarity}%</p>

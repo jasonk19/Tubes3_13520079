@@ -47,9 +47,10 @@ const InputForm = () => {
 
   const today = new Date();
   const date = today.getDate() + ' ' + convertMonth(today.getMonth() + 1) + ' ' + today.getFullYear();
+  const dataDate = today.toISOString().split('T')[0];
   
   const [data, setData] = useState({
-    date: date,
+    date: dataDate,
     name: '',
     patient_dna_sequence: '',
     disease: '',
@@ -148,6 +149,7 @@ const InputForm = () => {
       </motion.div>
       <ResultModal 
         showModal={showModal} 
+        date={date}
         patientData={result}
       />
     </>
