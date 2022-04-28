@@ -1,6 +1,6 @@
 import "./InputDisease.scss";
 import { motion, AnimatePresence } from 'framer-motion'
-import { createRef, useState } from "react";
+import { createRef, useState, useEffect } from "react";
 import NotifMessage from "./NotifMessage";
 import axios from "axios";
 import { AiOutlineCloseCircle } from 'react-icons/ai';
@@ -17,7 +17,16 @@ const modal = {
 
 const InputDisease = ({ showModal, setShowModal }) => {
 
+  const [diseases, setDiseases] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/disease").then((res) => {
+      setDiseases(res.data);
+    })
+  }, []);
+
   const [fileName, setFileName] = useState('')
+  const [diseaseExist, setDiseaseExist] = useState(false);
   const [invalidInput, setInvalidInput] = useState(false);
   const [messageNotif, setMessageNotif] = useState(false);
   const [data, setData] = useState({
@@ -55,18 +64,23 @@ const InputDisease = ({ showModal, setShowModal }) => {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    setDiseaseExist(false);
 
-    await axios.post("http://localhost:5000/api/disease", data).then((res) => {
-      result = res.data.message;
-    })
-    if (result === "Success") {
-      setMessageNotif(true);
-      setTimeout(() => {
-        window.location.reload()
-      }, 2000);
+    if (diseases.some((disease) => disease.nama_penyakit.toUpperCase() === data.name.toUpperCase())) {
+      setDiseaseExist(true);
     } else {
-      setInvalidInput(true);
+      await axios.post("http://localhost:5000/api/disease", data).then((res) => {
+        result = res.data.message;
+      })
+      if (result === "Success") {
+        setMessageNotif(true);
+        setTimeout(() => {
+          window.location.reload()
+        }, 2000);
+      } else {
+        setInvalidInput(true);
+      }
     }
   }
 
@@ -115,6 +129,11 @@ const InputDisease = ({ showModal, setShowModal }) => {
               {invalidInput && (
                 <NotifMessage message="DNA Sequence invalid, please input a correct DNA Sequence (consists of A, C, G, T)" bcolor="red" />
               )}
+              
+              {diseaseExist && (
+                <NotifMessage message="Disease already exist, please input a new disease" bcolor="red" />
+              )}
+
             </form>
 
           </motion.div>

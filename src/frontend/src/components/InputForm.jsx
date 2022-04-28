@@ -60,6 +60,7 @@ const InputForm = () => {
   const [fileName, setFileName] = useState('')
   const [invalidInput, setInvalidInput] = useState(false);
   const [result, setResult] = useState({});
+  const [unknownDisease, setUnknownDisease] = useState(false);
 
   let message = '';
 
@@ -93,7 +94,7 @@ const InputForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
+    setUnknownDisease(false);
     let diseaseDNA;
     for (let i = 0; i < diseases.length; i++) {
       if (diseases[i].nama_penyakit.toUpperCase() === data.disease.toUpperCase()) {
@@ -101,19 +102,23 @@ const InputForm = () => {
       }
     }
 
-    data.disease_dna_sequence = diseaseDNA;
-    
-    await axios.post("http://localhost:5000/api/result", data).then((res) => {
-      setResult(res.data.data);
-      message = res.data.message;
-    })
-
-    if (message === "Success") {
-      setShowModal(true);
-  
-      setTimeout(() => window.location.reload(), 7000);
+    if (diseaseDNA === undefined || diseaseDNA === '') {
+      setUnknownDisease(true);
     } else {
-      setInvalidInput(true);
+      data.disease_dna_sequence = diseaseDNA;
+      
+      await axios.post("http://localhost:5000/api/result", data).then((res) => {
+        setResult(res.data.data);
+        message = res.data.message;
+      })
+  
+      if (message === "Success") {
+        setShowModal(true);
+    
+        setTimeout(() => window.location.reload(), 7000);
+      } else {
+        setInvalidInput(true);
+      }
     }
   }
 
@@ -143,7 +148,11 @@ const InputForm = () => {
           <button className={data.patient_dna_sequence === '' || data.name === '' || data.disease === '' || invalidInput ? 'disabled' : ''} >Submit</button>
 
           {invalidInput && (
-              <NotifMessage message="DNA Sequence invalid, please input a correct DNA Sequence (consists of A, C, G, T)" bcolor="red" />
+            <NotifMessage message="DNA Sequence invalid, please input a correct DNA Sequence (consists of A, C, G, T)" bcolor="red" />
+          )}
+
+          {unknownDisease && (
+            <NotifMessage message="Disease does not exist, please enter a valid disease name that is listed in List of Disease" bcolor="red" />
           )}
         </form>
       </motion.div>
